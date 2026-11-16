@@ -1,0 +1,60 @@
+
+pipeline {
+    agent any
+
+    environment {
+        DEPLOY_DIR = 'C:\\inetpub\\wwwroot'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Checking out GitHub repository...'
+                git branch: 'main',
+                    url: 'https://github.com/Shravan2420/Jenkins-demo.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('Experiment-2-CICD-WebApp') {
+                    echo 'Checking project files...'
+
+                    bat 'dir'
+
+                    bat 'if not exist index.html exit /b 1'
+                    bat 'if not exist style.css exit /b 1'
+                    bat 'if not exist script.js exit /b 1'
+
+                    echo 'Build completed successfully!'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                dir('Experiment-2-CICD-WebApp') {
+                    echo 'Deploying files to IIS...'
+
+                    bat 'copy /Y index.html "%DEPLOY_DIR%\\"'
+                    bat 'copy /Y style.css "%DEPLOY_DIR%\\"'
+                    bat 'copy /Y script.js "%DEPLOY_DIR%\\"'
+
+                    echo 'Deployment completed!'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+            echo 'Visit http://localhost/index.html'
+        }
+
+        failure {
+            echo 'Pipeline failed. Check Console Output.'
+        }
+    }
+}

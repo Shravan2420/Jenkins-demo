@@ -4,24 +4,17 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                echo 'Checking out source code'
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
                 echo 'Compiling Java program'
-                bat 'javac Hello.java'
+                bat 'javac TextHello.java'
             }
         }
 
         stage('Run') {
             steps {
                 echo 'Executing Java program'
-                bat 'java Hello'
+                bat 'java TextHello'
             }
         }
     }

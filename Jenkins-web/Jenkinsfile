@@ -99,7 +99,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                dir('Experiment-2-CICD-WebApp') {
+                dir('Jenkins-web') {
 
                     echo 'Deploying website to IIS...'
 
